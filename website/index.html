@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>My first three.js app</title>
+	<style>
+		body { margin: 0; }
+		canvas { display: block; }
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1 ,maximum-scale=1">
+
+</head>
+
+<script src="zlib.dev.min.js"></script>
+<script src="three/three.js"></script>
+<script src="three/FBXLoader.js"></script>
+<script src="three/GLTFLoader.js"></script>
+
+<script src="communication.js"></script>
+<script src="viewStuff3d.js"></script>
+<script src="input.js"></script>
+<script src="transformationLogic.js"></script>
+<script src="callibration.js"></script>
+
+
+<body onkeydown="keyDown()" onkeyup="keyUp()" onresize="resize3Dviewport()"> <!-- keyDown,keyUp => input.js   resize3Dviewport => viewStuff3d -->
+
+
+
+<div style="position:absolute; top:10px; left:10px; background-color:#555555;" id="dataByKey">
+-nothing-
+</div>
+<!--
+<hr>
+<div id="data">
+-nothing-
+</div>
+-->
+</body>
+
+<script>
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 50000 );
+var renderer = new THREE.WebGLRenderer();
+
+var light = new THREE.AmbientLight( 0xB0B0B0 ); // soft white light
+scene.add( light );
+
+document.body.appendChild( renderer.domElement );
+
+resize3Dviewport();
+loadModels();
+
+function upDateView(){
+	KeyboardTransformation();
+	SensorTransformation();
+	renderer.render( scene, camera );
+	setTimeout(upDateView,100);
+};
+
+setTimeout(upDateView,20);
+
+</script>
+
